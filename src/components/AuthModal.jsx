@@ -76,8 +76,8 @@ function AuthModal({ onClose }) {
                     </h2>
                     <p className="auth-subtitle text-muted">
                         {step === 'email'
-                            ? 'Gib deine E-Mail ein, um einen 6-stelligen Code zu erhalten'
-                            : `Wir haben einen 6-stelligen Code an ${email} gesendet`
+                            ? 'Gib deine E-Mail ein, um einen 8-stelligen Code zu erhalten'
+                            : `Wir haben einen 8-stelligen Code an ${email} gesendet`
                         }
                     </p>
                 </div>
@@ -112,9 +112,9 @@ function AuthModal({ onClose }) {
                         <input
                             type="text"
                             className="auth-input auth-input-otp"
-                            placeholder="000000"
+                            placeholder="00000000"
                             value={otp}
-                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 8))}
                             required
                             autoFocus
                             inputMode="numeric"
@@ -123,7 +123,7 @@ function AuthModal({ onClose }) {
                         <button
                             type="submit"
                             className="btn btn-primary auth-submit"
-                            disabled={loading || otp.length !== 6}
+                            disabled={loading || otp.length !== 8}
                         >
                             {loading ? 'Wird überprüft...' : 'Bestätigen'}
                         </button>
