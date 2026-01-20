@@ -1,0 +1,184 @@
+/* ========================================
+   PWA Install Prompt Styles
+   ======================================== */
+
+.install-prompt-overlay {
+    position: fixed;
+    inset: 0;
+    background: hsla(220, 30%, 5%, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--spacing-4);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.install-prompt {
+    background: var(--glass-bg-light);
+    backdrop-filter: var(--glass-blur-heavy);
+    -webkit-backdrop-filter: var(--glass-blur-heavy);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: slideUp 0.4s var(--transition-spring);
+    margin-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+.install-prompt-close {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    background: none;
+    border: none;
+    color: var(--color-neutral-400);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: var(--spacing-2);
+    line-height: 1;
+    transition: color var(--transition-fast);
+}
+
+.install-prompt-close:hover {
+    color: var(--color-neutral-100);
+}
+
+.install-prompt-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-4);
+    animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.install-prompt-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-neutral-50);
+    margin: 0 0 var(--spacing-3);
+}
+
+.install-prompt-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-neutral-300);
+    line-height: var(--line-height-relaxed);
+    margin: 0 0 var(--spacing-5);
+}
+
+.install-prompt-steps-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-200);
+    margin: 0 0 var(--spacing-3);
+}
+
+.install-prompt-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-5);
+    text-align: left;
+}
+
+.install-prompt-steps li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    background: hsla(220, 25%, 98%, 0.05);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-neutral-200);
+}
+
+.install-prompt-steps li:last-child {
+    margin-bottom: 0;
+}
+
+.step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--color-primary-500), var(--color-accent-500));
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.install-prompt-button {
+    width: 100%;
+    padding: var(--spacing-4);
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-accent-500) 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 24px hsla(220, 80%, 50%, 0.3);
+    margin-bottom: var(--spacing-4);
+}
+
+.install-prompt-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 32px hsla(220, 80%, 50%, 0.4);
+}
+
+.install-prompt-button:active {
+    transform: translateY(0);
+}
+
+.install-prompt-later {
+    background: none;
+    border: none;
+    color: var(--color-neutral-400);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    padding: var(--spacing-2) var(--spacing-4);
+    transition: color var(--transition-fast);
+}
+
+.install-prompt-later:hover {
+    color: var(--color-neutral-200);
+}
