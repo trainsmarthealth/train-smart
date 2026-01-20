@@ -139,3 +139,35 @@
 .text-small {
     font-size: var(--font-size-xs);
 }
+
+.auth-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-2);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--color-primary-400);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    transition: color var(--transition-fast);
+}
+
+.btn-link:hover {
+    color: var(--color-primary-300);
+}
+
+.btn-link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.auth-success {
+    background: hsla(145, 65%, 45%, 0.15);
+    border-color: hsla(145, 65%, 45%, 0.3);
+    color: hsl(145, 65%, 60%);
+}

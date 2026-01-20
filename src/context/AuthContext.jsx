@@ -24,16 +24,25 @@ export function AuthProvider({ children }) {
         return () => subscription.unsubscribe()
     }, [])
 
-    // Send Magic Link to email
-    const sendMagicLink = async (email) => {
+    // Send OTP code to email
+    const sendOtp = async (email) => {
         const { error } = await supabase.auth.signInWithOtp({
             email,
             options: {
-                shouldCreateUser: true,
-                emailRedirectTo: window.location.origin
+                shouldCreateUser: true
             }
         })
         return { error }
+    }
+
+    // Verify OTP code
+    const verifyOtp = async (email, token) => {
+        const { data, error } = await supabase.auth.verifyOtp({
+            email,
+            token,
+            type: 'email'
+        })
+        return { data, error }
     }
 
     // Sign out
@@ -46,7 +55,8 @@ export function AuthProvider({ children }) {
         user,
         loading,
         isAuthenticated: !!user,
-        sendMagicLink,
+        sendOtp,
+        verifyOtp,
         signOut
     }
 

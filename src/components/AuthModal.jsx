@@ -3,23 +3,62 @@ import { useAuth } from '../context/AuthContext'
 import './AuthModal.css'
 
 function AuthModal({ onClose }) {
-    const { sendMagicLink } = useAuth()
+    const { sendOtp, verifyOtp } = useAuth()
+    const [step, setStep] = useState('email') // 'email' | 'otp'
     const [email, setEmail] = useState('')
+    const [otp, setOtp] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const [sent, setSent] = useState(false)
 
-    const handleSendLink = async (e) => {
+    const handleSendOtp = async (e) => {
         e.preventDefault()
         setLoading(true)
         setError(null)
 
-        const { error } = await sendMagicLink(email)
+        const { error } = await sendOtp(email)
 
         if (error) {
             setError(error.message)
         } else {
-            setSent(true)
+            setStep('otp')
+        }
+        setLoading(false)
+    }
+
+    const handleVerifyOtp = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+
+        const { error } = await verifyOtp(email, otp)
+
+        if (error) {
+            // Show user-friendly error message
+            if (error.message.includes('expired') || error.message.includes('invalid')) {
+                setError('Der Code ist ungültig oder abgelaufen. Bitte fordere einen neuen Code an.')
+            } else {
+                setError(error.message)
+            }
+        } else {
+            onClose?.()
+        }
+        setLoading(false)
+    }
+
+    const handleResendCode = async () => {
+        setLoading(true)
+        setError(null)
+        setOtp('')
+
+        const { error } = await sendOtp(email)
+
+        if (error) {
+            setError(error.message)
+        } else {
+            setError(null)
+            // Show success message briefly
+            setError('✅ Neuer Code gesendet!')
+            setTimeout(() => setError(null), 3000)
         }
         setLoading(false)
     }
@@ -31,72 +70,85 @@ function AuthModal({ onClose }) {
                     ✕
                 </button>
 
-                {sent ? (
-                    <>
-                        <div className="auth-header">
-                            <div className="auth-success-icon">📧</div>
-                            <h2 className="auth-title text-gradient">
-                                E-Mail gesendet!
-                            </h2>
-                            <p className="auth-subtitle text-muted">
-                                Wir haben einen Anmelde-Link an <strong>{email}</strong> gesendet.
-                            </p>
-                        </div>
+                <div className="auth-header">
+                    <h2 className="auth-title text-gradient">
+                        {step === 'email' ? 'Anmelden' : 'Code eingeben'}
+                    </h2>
+                    <p className="auth-subtitle text-muted">
+                        {step === 'email'
+                            ? 'Gib deine E-Mail ein, um einen 6-stelligen Code zu erhalten'
+                            : `Wir haben einen 6-stelligen Code an ${email} gesendet`
+                        }
+                    </p>
+                </div>
 
-                        <div className="auth-instructions">
-                            <p>Öffne die E-Mail und klicke auf den Link, um dich anzumelden.</p>
-                            <p className="text-small text-muted">
-                                Schau auch im Spam-Ordner nach, falls du keine E-Mail siehst.
-                            </p>
-                        </div>
+                {error && (
+                    <div className={`auth-error ${error.startsWith('✅') ? 'auth-success' : ''}`}>
+                        {error}
+                    </div>
+                )}
 
+                {step === 'email' ? (
+                    <form onSubmit={handleSendOtp} className="auth-form">
+                        <input
+                            type="email"
+                            className="auth-input"
+                            placeholder="deine@email.de"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            autoFocus
+                        />
                         <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={() => {
-                                setSent(false)
-                                setEmail('')
-                            }}
+                            type="submit"
+                            className="btn btn-primary auth-submit"
+                            disabled={loading}
                         >
-                            Andere E-Mail verwenden
+                            {loading ? 'Wird gesendet...' : 'Code senden'}
                         </button>
-                    </>
+                    </form>
                 ) : (
-                    <>
-                        <div className="auth-header">
-                            <h2 className="auth-title text-gradient">
-                                Anmelden
-                            </h2>
-                            <p className="auth-subtitle text-muted">
-                                Gib deine E-Mail ein – wir senden dir einen Anmelde-Link.
-                            </p>
-                        </div>
-
-                        {error && (
-                            <div className="auth-error">
-                                {error}
-                            </div>
-                        )}
-
-                        <form onSubmit={handleSendLink} className="auth-form">
-                            <input
-                                type="email"
-                                className="auth-input"
-                                placeholder="deine@email.de"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                autoFocus
-                            />
+                    <form onSubmit={handleVerifyOtp} className="auth-form">
+                        <input
+                            type="text"
+                            className="auth-input auth-input-otp"
+                            placeholder="000000"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            required
+                            autoFocus
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                        />
+                        <button
+                            type="submit"
+                            className="btn btn-primary auth-submit"
+                            disabled={loading || otp.length !== 6}
+                        >
+                            {loading ? 'Wird überprüft...' : 'Bestätigen'}
+                        </button>
+                        <div className="auth-actions">
                             <button
-                                type="submit"
-                                className="btn btn-primary auth-submit"
+                                type="button"
+                                className="btn-link"
+                                onClick={handleResendCode}
                                 disabled={loading}
                             >
-                                {loading ? 'Wird gesendet...' : 'Link senden'}
+                                Code erneut senden
                             </button>
-                        </form>
-                    </>
+                            <button
+                                type="button"
+                                className="btn-link"
+                                onClick={() => {
+                                    setStep('email')
+                                    setOtp('')
+                                    setError(null)
+                                }}
+                            >
+                                Andere E-Mail
+                            </button>
+                        </div>
+                    </form>
                 )}
             </div>
         </div>
