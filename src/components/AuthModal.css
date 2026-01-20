@@ -1,0 +1,112 @@
+.auth-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: hsla(220, 60%, 5%, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--spacing-4);
+    animation: fadeIn var(--transition-fast) ease;
+}
+
+.auth-modal {
+    width: 100%;
+    max-width: 360px;
+    padding: var(--spacing-8);
+    position: relative;
+    animation: slideUp var(--transition-base) ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-4);
+    right: var(--spacing-4);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    color: var(--color-neutral-400);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+    background: var(--glass-bg-light);
+    color: var(--color-neutral-100);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.auth-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-2);
+}
+
+.auth-subtitle {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.auth-error {
+    background: hsla(0, 70%, 50%, 0.15);
+    border: 1px solid hsla(0, 70%, 50%, 0.3);
+    color: hsl(0, 70%, 70%);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-4);
+    text-align: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.auth-input {
+    width: 100%;
+    padding: var(--spacing-4);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-neutral-100);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+}
+
+.auth-input::placeholder {
+    color: var(--color-neutral-500);
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: var(--color-primary-400);
+}
+
+.auth-input-otp {
+    text-align: center;
+    font-size: var(--font-size-2xl);
+    letter-spacing: 0.5em;
+    font-weight: var(--font-weight-semibold);
+}
+
+.auth-submit {
+    width: 100%;
+    padding: var(--spacing-4);
+}
+
+.auth-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

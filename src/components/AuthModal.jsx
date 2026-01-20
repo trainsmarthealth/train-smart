@@ -1,0 +1,121 @@
+import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
+import './AuthModal.css'
+
+function AuthModal({ onClose }) {
+    const { sendOtp, verifyOtp } = useAuth()
+    const [step, setStep] = useState('email') // 'email' | 'otp'
+    const [email, setEmail] = useState('')
+    const [otp, setOtp] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+
+    const handleSendOtp = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+
+        const { error } = await sendOtp(email)
+
+        if (error) {
+            setError(error.message)
+        } else {
+            setStep('otp')
+        }
+        setLoading(false)
+    }
+
+    const handleVerifyOtp = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+
+        const { error } = await verifyOtp(email, otp)
+
+        if (error) {
+            setError(error.message)
+        } else {
+            onClose?.()
+        }
+        setLoading(false)
+    }
+
+    return (
+        <div className="auth-modal-overlay" onClick={onClose}>
+            <div className="auth-modal glass-panel-heavy" onClick={(e) => e.stopPropagation()}>
+                <button className="modal-close" onClick={onClose} aria-label="Schließen">
+                    ✕
+                </button>
+
+                <div className="auth-header">
+                    <h2 className="auth-title text-gradient">
+                        {step === 'email' ? 'Anmelden' : 'Code eingeben'}
+                    </h2>
+                    <p className="auth-subtitle text-muted">
+                        {step === 'email'
+                            ? 'Gib deine E-Mail ein, um einen Code zu erhalten'
+                            : `Wir haben einen Code an ${email} gesendet`
+                        }
+                    </p>
+                </div>
+
+                {error && (
+                    <div className="auth-error">
+                        {error}
+                    </div>
+                )}
+
+                {step === 'email' ? (
+                    <form onSubmit={handleSendOtp} className="auth-form">
+                        <input
+                            type="email"
+                            className="auth-input"
+                            placeholder="deine@email.de"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            autoFocus
+                        />
+                        <button
+                            type="submit"
+                            className="btn btn-primary auth-submit"
+                            disabled={loading}
+                        >
+                            {loading ? 'Wird gesendet...' : 'Code senden'}
+                        </button>
+                    </form>
+                ) : (
+                    <form onSubmit={handleVerifyOtp} className="auth-form">
+                        <input
+                            type="text"
+                            className="auth-input auth-input-otp"
+                            placeholder="000000"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            required
+                            autoFocus
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                        />
+                        <button
+                            type="submit"
+                            className="btn btn-primary auth-submit"
+                            disabled={loading || otp.length !== 6}
+                        >
+                            {loading ? 'Wird überprüft...' : 'Bestätigen'}
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => setStep('email')}
+                        >
+                            Andere E-Mail
+                        </button>
+                    </form>
+                )}
+            </div>
+        </div>
+    )
+}
+
+export default AuthModal

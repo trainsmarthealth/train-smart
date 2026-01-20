@@ -1,0 +1,215 @@
+.program-detail-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+.detail-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.back-button {
+    align-self: flex-start;
+    color: var(--color-neutral-400);
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-2);
+    margin-left: calc(-1 * var(--spacing-2));
+    transition: color var(--transition-fast);
+}
+
+.back-button:hover {
+    color: var(--color-neutral-100);
+}
+
+.detail-thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-glow);
+}
+
+.thumbnail-icon {
+    font-size: 3rem;
+}
+
+.detail-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.detail-meta {
+    font-size: var(--font-size-sm);
+}
+
+.detail-description {
+    font-size: var(--font-size-base);
+    color: var(--color-neutral-300);
+    max-width: 320px;
+    line-height: var(--line-height-relaxed);
+}
+
+.purchase-banner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    padding: var(--spacing-4) var(--spacing-5);
+}
+
+.purchase-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.purchase-price {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent-400);
+}
+
+.purchase-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-neutral-400);
+}
+
+.purchase-actions {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+.btn-small {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+/* Recovery Result */
+.recovery-result {
+    position: relative;
+    padding: var(--spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    border-left: 3px solid currentColor;
+}
+
+.recovery-result.success {
+    color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.recovery-result.error {
+    color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.recovery-result p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-neutral-200);
+}
+
+.support-link {
+    color: var(--color-primary-400);
+    font-size: var(--font-size-sm);
+    text-decoration: underline;
+}
+
+.close-result {
+    position: absolute;
+    top: var(--spacing-2);
+    right: var(--spacing-2);
+    background: none;
+    border: none;
+    color: var(--color-neutral-500);
+    cursor: pointer;
+    padding: var(--spacing-1);
+    font-size: var(--font-size-sm);
+}
+
+.exercises-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-neutral-300);
+    padding-left: var(--spacing-2);
+}
+
+.exercises-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.exercise-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-4);
+    text-align: left;
+    width: 100%;
+    transition: all var(--transition-base);
+}
+
+.exercise-item:not(.locked):hover {
+    transform: translateX(4px);
+    border-color: var(--color-primary-400);
+}
+
+.exercise-item.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.exercise-number {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-neutral-300);
+    flex-shrink: 0;
+}
+
+.exercise-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.exercise-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-100);
+}
+
+.exercise-duration {
+    font-size: var(--font-size-sm);
+}
+
+.exercise-action {
+    font-size: 1.25rem;
+    color: var(--color-neutral-400);
+}
+
+.exercise-item:not(.locked) .exercise-action {
+    color: var(--color-primary-400);
+}
